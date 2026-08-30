@@ -1,0 +1,11 @@
+// use prisma-next
+
+model Reading {
+  id          Int      @id @default(autoincrement())
+  deviceId    String
+  temperature Float
+  humidity    Float
+  receivedAt  TimestamptzString(3)
+
+  @@map("readings")
+}

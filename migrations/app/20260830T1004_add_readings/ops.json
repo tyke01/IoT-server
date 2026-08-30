@@ -1,0 +1,58 @@
+[
+  {
+    "id": "schema.public",
+    "label": "Create schema \"public\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres"
+    },
+    "precheck": [],
+    "execute": [
+      {
+        "description": "Create schema \"public\"",
+        "sql": "CREATE SCHEMA IF NOT EXISTS \"public\"",
+        "params": []
+      }
+    ],
+    "postcheck": []
+  },
+  {
+    "id": "table.readings",
+    "label": "Create table \"readings\"",
+    "summary": "Creates table \"readings\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "table",
+        "name": "readings"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure table \"readings\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"readings\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create table \"readings\"",
+        "sql": "CREATE TABLE \"public\".\"readings\" (\n  \"deviceId\" text NOT NULL,\n  \"humidity\" float8 NOT NULL,\n  \"id\" SERIAL NOT NULL,\n  \"receivedAt\" timestamptz NOT NULL,\n  \"temperature\" float8 NOT NULL,\n  PRIMARY KEY (\"id\")\n)",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify table \"readings\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"readings\""
+        ]
+      }
+    ]
+  }
+]
