@@ -1,6 +1,6 @@
 # IoT Server
 
-A small, honest Node.js and TypeScript server that sits between an ESP32 and a web
+A small Node.js and TypeScript server that sits between an ESP32 and a web
 dashboard. It listens to sensor data over MQTT, keeps it, exposes it over HTTP, and
 sends commands back to the device.
 
