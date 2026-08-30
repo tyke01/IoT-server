@@ -1,6 +1,6 @@
 # IoT Server
 
-A small, honest Node.js and TypeScript server that sits between an ESP32 and a web
+A small Node.js and TypeScript server that sits between an ESP32 and a web
 dashboard. It listens to sensor data over MQTT, keeps it, exposes it over HTTP, and
 sends commands back to the device.
 
@@ -74,19 +74,20 @@ this server is concerned.
 Each folder has its own README explaining what it owns and, just as importantly,
 what it must never do.
 
-| Folder          | Responsibility                                                         | Docs                                                                 |
-| --------------- | ---------------------------------------------------------------------- | -------------------------------------------------------------------- |
-| `src/config/`   | Read and check environment variables, expose one typed config object   | [README](src/config/README.md)                                       |
-| `src/mqtt/`     | Connect to the broker, subscribe, publish. Nothing about DHT22 or LEDs | [README](src/mqtt/README.md)                                         |
-| `src/utils/`    | Small helpers with no business meaning, like logging                   | [README](src/utils/README.md)                                        |
-| `src/types/`    | Shared type definitions, explained one by one                          | [README](src/types/README.md)                                        |
-| `src/devices/`  | DHT22 parsing and LED command building                                 | [README](src/devices/README.md)                                      |
-| `src/services/` | Coordination and the in-memory latest reading                          | [README](src/services/README.md)                                     |
-| `src/api/`      | Fastify HTTP server and routes                                         | [README](src/api/README.md)                                          |
-| `src/database/` | Prisma client and the save and query functions                         | [README](src/database/README.md)                                     |
-| `src/prisma/`   | Generated Prisma contract and client. Do not edit the generated files  | [database README](src/database/README.md)                            |
-| `scripts/`      | Developer tools that are not part of the server, like the mock device  | [mock device](docs/02-connect-to-broker.md#running-without-hardware) |
-| `firmware/`     | The ESP32 sketch: reads the DHT22, publishes, drives the LED           | [README](firmware/README.md)                                         |
+| Folder          | Responsibility                                                                   | Docs                                                                 |
+| --------------- | -------------------------------------------------------------------------------- | -------------------------------------------------------------------- |
+| `src/config/`   | Read and check environment variables, expose one typed config object             | [README](src/config/README.md)                                       |
+| `src/mqtt/`     | Connect to the broker, subscribe, publish. Nothing about DHT22 or LEDs           | [README](src/mqtt/README.md)                                         |
+| `src/utils/`    | Small helpers with no business meaning, like logging                             | [README](src/utils/README.md)                                        |
+| `src/types/`    | Shared type definitions, explained one by one                                    | [README](src/types/README.md)                                        |
+| `src/devices/`  | DHT22 parsing and LED command building                                           | [README](src/devices/README.md)                                      |
+| `src/services/` | Coordination and the in-memory latest reading                                    | [README](src/services/README.md)                                     |
+| `src/api/`      | Fastify HTTP server and routes                                                   | [README](src/api/README.md)                                          |
+| `src/database/` | Prisma client and the save and query functions                                   | [README](src/database/README.md)                                     |
+| `src/prisma/`   | Generated Prisma contract and client. Do not edit the generated files            | [database README](src/database/README.md)                            |
+| `scripts/`      | Developer tools that are not part of the server, like the mock device            | [mock device](docs/02-connect-to-broker.md#running-without-hardware) |
+| `firmware/`     | The ESP32 sketch: reads the DHT22, publishes, drives the LED                     | [README](firmware/README.md)                                         |
+| `ai/`           | Anomaly detection and predictive maintenance: concepts and how they would attach | [README](ai/README.md)                                               |
 
 Folders appear as the build reaches them. An empty folder teaches nothing.
 

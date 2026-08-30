@@ -28,6 +28,7 @@ Each document follows the same shape:
 |---|---|
 | Polling to SSE, then WebSocket | Dashboard 3 seconds behind, wasted requests |
 | Runtime validation with zod | A malformed payload crashing the server, and why types alone cannot stop it |
+| Branded types for ids | `DeviceId` currently accepting any string at all |
 | JSON sensor catalogue | Editing four files to add one sensor |
 | Functions to classes with dependency injection | Untestable code and hidden global state |
 | Command acknowledgements | Not knowing whether the LED actually turned on |
@@ -38,6 +39,7 @@ Each document follows the same shape:
 |---|---|
 | Device table and relations | `deviceId` as a bare string with no validation |
 | Indexing and batched writes | A write per reading, and slow history queries |
+| Temporal instead of text timestamps | The one type assertion in the project, and a new date API |
 | Time-series storage | Millions of rows and aggregate queries |
 
 ## Operations
@@ -47,6 +49,17 @@ Each document follows the same shape:
 | API keys, then real auth | Anyone who finds the URL can control your LED |
 | Structured logging | Grepping console output at 2am |
 | Automated tests | Fear of changing working code |
+
+## Analysis on the data
+
+| Improvement | Solves |
+|---|---|
+| [Anomaly detection and device health](../../ai/README.md) | Nobody watching the numbers, and a broken sensor looking exactly like a working one |
+
+That document is a ladder from thresholds to trained models, and it argues for
+starting at the bottom. It also draws a line under predictive maintenance: your DHT22
+has no failure mode to predict, but the sensor node itself does, and that version is
+real and buildable.
 
 ## Working with AI
 
