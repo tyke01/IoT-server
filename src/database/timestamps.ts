@@ -1,4 +1,4 @@
-import type { TimestamptzString } from "@prisma/orm-postgres/target/codec-types";
+import type { TimestamptzString } from "@prisma/orm-target-postgres/target/codec-types";
 
 /**
  * The precision declared on Reading.receivedAt in the contract. Changing one

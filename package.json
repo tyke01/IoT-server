@@ -10,14 +10,19 @@
     "start": "node dist/src/index.js",
     "typecheck": "tsc --noEmit",
     "mock": "tsx scripts/mock-device.ts",
-    "contract:emit": "prisma contract emit"
+    "contract:emit": "prisma contract emit",
+    "db:migrate": "prisma db migrate --advance-ref db",
+    "verify:llm": "tsx scripts/verify-llm-provider.ts",
+    "plot": "tsx scripts/plot.ts"
   },
   "dependencies": {
     "@fastify/cors": "^11.3.0",
     "@prisma/orm-postgres": "^8.0.0-rc.8",
     "dotenv": "^17.4.2",
     "fastify": "^5.12.1",
-    "mqtt": "^5.14.0"
+    "groq-sdk": "^1.6.0",
+    "mqtt": "^5.14.0",
+    "openai": "^7.10.0"
   },
   "devDependencies": {
     "@prisma/cli-engine": "^0.2.3",

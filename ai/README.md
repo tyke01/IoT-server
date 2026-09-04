@@ -17,6 +17,9 @@ Statistics and models applied to sensor readings. That is this folder.
 understands your repository. That is a separate entry in the improvements track and has
 nothing to do with the contents of your `readings` table.
 
+The first is built in [step 10](../docs/10-ai-agent.md), where an agent answers
+questions about your readings using tools that query Postgres.
+
 ---
 
 ## Start here: you probably do not need a model
@@ -247,6 +250,47 @@ what was missed, and how many times it cried wolf on a quiet hour.
 That last row deserves emphasis. A detector's false positive rate on ordinary data
 matters more than its catch rate, because alerts nobody trusts get ignored, and an
 ignored alerting system is worse than none: it costs money and provides false comfort.
+
+---
+
+## Other places AI fits in an IoT system
+
+The ladder above is about one thing: judging whether a reading is normal. That is the
+most common use, not the only one.
+
+| Use case | What it does | Where it runs | Honest difficulty |
+|---|---|---|---|
+| **Natural-language querying** | "Was the lab warmer than usual last night?" answered from real rows | Server, on demand | Low. Built in [step 10](../docs/10-ai-agent.md) |
+| **Alert triage and summarising** | Fourteen alerts become one sentence a technician can act on | Server, after detection | Low. Same technique as step 10 |
+| **Anomaly detection** | Is this reading unusual | Server, per reading | Low to medium. The ladder above |
+| **Device health prediction** | Stuck sensors, drift, reboot patterns | Server, per reading | Low. Rung 3, and the best value here |
+| **Forecasting** | Where is this heading, and when does it cross a limit | Server, on demand | Low for trends, high for anything seasonal |
+| **Adaptive sampling** | Publish every 30s when calm, every 2s when changing | Device | Medium. Saves battery and bandwidth, needs care not to miss events |
+| **Sensor fusion** | Combine several imperfect sensors into one better estimate | Either | Medium. Kalman filters, not machine learning |
+| **Edge inference** | A small model on the ESP32 deciding locally | Device, TFLite Micro | High. Worth it when the network is unreliable or the latency budget is milliseconds |
+| **Vision inspection** | A camera judging whether a part is good | Separate service | High. Different sensors, different pipeline, real labelling effort |
+| **Digital twin** | A simulation running alongside, compared against reality | Server | High. You need a model of the physical system first |
+| **Energy optimisation** | Scheduling loads against price or generation | Server | Medium. Mostly an optimisation problem, not a learning one |
+
+Two things worth pulling out of that table.
+
+**Adaptive sampling is the most underrated entry.** A battery device publishing every
+2 seconds when nothing is changing is wasting most of its life. Publishing on change,
+with a slow heartbeat as a floor, can extend battery life dramatically and reduce
+your database growth at the same time. It needs no model, only a threshold and some
+thought about what counts as a change worth reporting.
+
+**Sensor fusion is not machine learning and people keep assuming it is.** Combining a
+fast, noisy sensor with a slow, accurate one is a Kalman filter, which is
+well-understood mathematics with a right answer. Reaching for a neural network there
+is choosing a harder tool that performs worse.
+
+---
+
+For how these apply in specific fields, with what you can honestly demonstrate on a
+DHT22 in each, see [`sectors.md`](sectors.md). The short version of that document:
+your sensor already computes vapour pressure deficit and dew point, both of which are
+real decisions in agriculture and buildings, and neither needs a model.
 
 ---
 

@@ -22,3 +22,15 @@ export type {
   LedCommandResponse,
   ErrorResponse,
 } from "./api.ts";
+
+export type {
+  AssistantTurn,
+  ChatFn,
+  ChatMessage,
+  Forecast,
+  AgentAnswer,
+  AgentStep,
+  ChartSpec,
+  ToolResult,
+  AgentTool,
+} from "./agent.ts";

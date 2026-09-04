@@ -9,6 +9,7 @@ import { registerDeviceRoutes } from "./routes/devices.ts";
 import { registerSystemRoutes } from "./routes/system.ts";
 import { registerTelemetryRoutes } from "./routes/telemetry.ts";
 import type { PublishFn } from "../types/index.ts";
+import { registerAgentRoutes } from "./routes/agent.js";
 
 export async function startApiServer(
   publish: PublishFn
@@ -22,6 +23,7 @@ export async function startApiServer(
   registerTelemetryRoutes(app);
   registerDeviceRoutes(app);
   registerCommandRoutes(app, publish);
+  registerAgentRoutes(app);
 
   await app.listen({ port: config.http.port, host: config.http.host });
   logger.info(`API listening on http://${config.http.host}:${config.http.port}`);

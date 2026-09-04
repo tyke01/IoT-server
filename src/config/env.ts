@@ -37,6 +37,22 @@ function optionalPort(name: string, fallback: number): number {
   return port;
 }
 
+function optionalInt(name: string, fallback: number): number {
+  const raw = process.env[name];
+
+  if (raw === undefined || raw.trim() === "") {
+    return fallback;
+  }
+
+  const value = Number(raw);
+
+  if (!Number.isInteger(value) || value < 1) {
+    throw new Error(`${name} must be a whole number above zero, got "${raw}"`);
+  }
+
+  return value;
+}
+
 function randomSuffix(): string {
   return Math.random().toString(16).slice(2, 8);
 }
@@ -48,6 +64,14 @@ export const config = {
     password: requireEnv("MQTT_PASSWORD"),
     clientId: optionalEnv("MQTT_CLIENT_ID", `iot-server-${randomSuffix()}`),
     baseTopic: optionalEnv("MQTT_BASE_TOPIC", "spectral/esp32"),
+  },
+  llm: {
+    // Optional on purpose: the server must still run without an agent.
+    configured: (process.env["LLM_API_KEY"] ?? "").trim() !== "",
+    apiKey: optionalEnv("LLM_API_KEY", "not-configured"),
+    baseUrl: optionalEnv("LLM_BASE_URL", "https://api.groq.com/openai/v1"),
+    model: optionalEnv("LLM_MODEL", "llama-3.3-70b-versatile"),
+    maxSteps: optionalInt("AGENT_MAX_STEPS", 8),
   },
   http: {
     port: optionalPort("HTTP_PORT", 3000),
